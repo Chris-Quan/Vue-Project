@@ -1,26 +1,43 @@
+import dotenv from  'dotenv'
+require('dotenv').config();
+
 <template>
   <router-view/>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import axios from "axios";
 
-nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
+export default{
+  name: "App",
+  data(){
+    return{
+      APIKey: process.env.VUE_APP_WeatherAPI,
+      city: "Guelph",
+    };
+  },
+  created() {
+    this.getCurrentWeather();
+  },
+  methods:{
+    getCurrentWeather(){
+      axios.get(
+                "https://api.openweathermap.org/data/2.5/weather?q=" + this.city + "&appid=" + this.APIKey
+              )
+      .then((res) => {
+      console.log(res.data);
+    });
     }
   }
+}
+</script>
+
+
+<style lang="scss">
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Quickstand", sans-serif;
 }
 </style>
